@@ -10,6 +10,9 @@ spring:
     password: websource-p2p
     embedded:
       queues: messaging
+  mongodb:
+    embedded:
+      version: 4.0.21
 
 management:
   server:

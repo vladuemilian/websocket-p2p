@@ -1,4 +1,4 @@
-package com.betvictor.websocketp2p.websocketp2p.websocket;
+package com.betvictor.websocketp2p.websocketp2p;
 
 import com.corundumstudio.socketio.SocketIOServer;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,6 +19,7 @@ public class WebsocketServerConfiguration {
         com.corundumstudio.socketio.Configuration config = new com.corundumstudio.socketio.Configuration();
         config.setHostname(hostname);
         config.setPort(port);
+        config.setRandomSession(true);
 
         return new SocketIOServer(config);
     }

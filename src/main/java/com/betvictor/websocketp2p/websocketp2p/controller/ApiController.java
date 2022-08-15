@@ -18,7 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
-public class AppController {
+public class ApiController {
 
     private final UserService userService;
     private final MessageRepository messageRepository;
@@ -31,6 +31,10 @@ public class AppController {
 
     @GetMapping("/messages/{authenticatedUserToken}/{userToken}")
     public ResponseEntity<GetMessagesResponse> getMessages(@PathVariable("authenticatedUserToken") String authenticatedUserToken, @PathVariable("userToken") String userToken) {
+        if(!userService.authenticate(authenticatedUserToken, userToken)) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
         List<Message> messages = messageRepository.findMessages(authenticatedUserToken, userToken);
         return ResponseEntity.ok(GetMessagesResponse.builder().messages(messages).build());
     }

@@ -11,5 +11,17 @@ spring:
     embedded:
       queues: messaging
 
+management:
+  server:
+    port: 8081
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: "*"
+betvictor:
+  application-hostname: http://localhost
+
+
 
 

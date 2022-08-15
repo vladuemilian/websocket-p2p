@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
 
     <meta charset="utf-8"/>
@@ -44,9 +44,17 @@
             integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
             crossorigin="anonymous"></script>
 
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        let applicationHostname = /*[[${applicationHostname}]]*/ 'default';
+        let websocketPort = /*[[${websocketPort}]]*/ 9000;
+        console.log(applicationHostname);
+        console.log(websocketPort);
+        /*]]>*/
+    </script>
     <script>
 
-        const socket = io.connect('http://localhost:9000');
+        const socket = io.connect(applicationHostname + ':' + websocketPort);
         //const socket = ws.of(/^\/\w+$/);
 
         let senderToken = null;
@@ -82,7 +90,7 @@
         }
 
         function createUser() {
-            $.post("http://localhost:8080/api/v1/users", {}, function(data, status, jqXHR) {
+            $.post("/api/v1/users", {}, function(data, status, jqXHR) {
                 console.log(data);
                 $("#messages").html(data.token);
             });
@@ -92,7 +100,7 @@
             this.senderToken =  $("#yourUserToken").val();
             this.receiverToken = $("#friendsUserToken").val();
 
-            $.get("http://localhost:8080/api/v1/messages/" + this.senderToken + "/" + this.receiverToken, function(data, status, jqXHR) {
+            $.get("/api/v1/messages/" + this.senderToken + "/" + this.receiverToken, function(data, status, jqXHR) {
                 data.messages.forEach((message) => {
                     outputMessage(message);
                 })
